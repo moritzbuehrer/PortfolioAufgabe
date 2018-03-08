@@ -69,7 +69,11 @@ public class OfferEditServlet extends HttpServlet {
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
             request.setAttribute("offer_form", this.createOfferForm(offer));
         }
-
+              
+        if(!this.userBean.getCurrentUser().getUsername().equals(offer.getCreator().getUsername())){
+            request.setAttribute("readonly", true);
+        }        
+        
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/offer_edit.jsp").forward(request, response);
 
@@ -88,7 +92,7 @@ public class OfferEditServlet extends HttpServlet {
         if (action == null) {
             action = "";
         }
-
+        
         switch (action) {
             case "save":
                 this.saveOffer(request, response);
@@ -118,7 +122,7 @@ public class OfferEditServlet extends HttpServlet {
         User user = userBean.getCurrentUser();
         
         if (!user.getUsername().equals(offer.getCreator().getUsername())) {
-            errors.add("Nur der ersteller hat die Berechtigung ein Angebot zu bearbeiten.");
+            errors.add("Nur der Ersteller hat die Berechtigung ein Angebot zu bearbeiten.");
         }
 
         if (offerCategory != null && !offerCategory.trim().isEmpty()) {
@@ -189,15 +193,34 @@ public class OfferEditServlet extends HttpServlet {
 
     private void deleteOffer(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        //Errorhandling
+        List<String> errors = new ArrayList<>();
+        
         // Datensatz löschen
         Offer offer = this.getRequestedOffer(request);
-        this.offerBean.delete(offer);
+        User user = userBean.getCurrentUser();
+        
+        if (!user.getUsername().equals(offer.getCreator().getUsername())) {
+            errors.add("Nur der Ersteller hat die Berechtigung ein Angebot zu löschen.");
+        }
+        
+        if(errors.isEmpty()){
+            this.offerBean.delete(offer);
+            // Zurück zur Übersicht
+            response.sendRedirect(WebUtils.appUrl(request, "/app/offers/"));
+        }else{
+            FormValues formValues = new FormValues();
+            formValues.setValues(request.getParameterMap());
+            formValues.setErrors(errors);
 
-        // Zurück zur Übersicht
-        response.sendRedirect(WebUtils.appUrl(request, "/app/offers/"));
+            HttpSession session = request.getSession();
+            session.setAttribute("offer_form", formValues);
+
+            response.sendRedirect(request.getRequestURI());
+        }
+     
     }
-
     private Offer getRequestedOffer(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
         Offer offer = new Offer();

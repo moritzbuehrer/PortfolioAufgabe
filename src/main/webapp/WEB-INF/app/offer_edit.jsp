@@ -88,21 +88,21 @@
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
-                    <input type="text" name="offer_title" value="${offer_form.values["offer_title"][0]}">
+                    <input type="text" name="offer_title" value="${offer_form.values["offer_title"][0]}" ${readonly ? 'readonly="readonly"' : ''}>
                 </div>
 
                 <label for="offer_description">
                     Beschreibung:
                 </label>
                 <div class="side-by-side">
-                    <textarea name="offer_description"><c:out value="${offer_form.values['offer_description'][0]}"/></textarea>
+                    <textarea name="offer_description" ${readonly ? 'readonly="readonly"' : ''}><c:out value="${offer_form.values['offer_description'][0]}"/></textarea>
                 </div>
                 
                 <label for="offer_price">
                     Preis:
                 </label>
                 <div class="side-by-side">
-                    <input name="offer_price" value="${offer_form.values['offer_price'][0]}"/>
+                    <input name="offer_price" value="${offer_form.values['offer_price'][0]}" ${readonly ? 'readonly="readonly"' : ''}/>
                 </div>
                 
                 <label for="offer_type">
