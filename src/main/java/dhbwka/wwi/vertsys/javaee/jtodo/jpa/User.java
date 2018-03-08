@@ -45,9 +45,12 @@ public class User implements Serializable {
     @NotNull(message = "Der Benutzername darf nicht leer sein.")
     private String username;
     
+    public class Password {
+        @Size(min = 6, max = 64, message = "Das Passwort muss zwischen sechs und 64 Zeichen lang sein.")
+        public String password = "";
+    }
     @Transient
-    @Size(min = 6, max = 64, message = "Das Passwort muss zwischen sechs und 64 Zeichen lang sein.")
-    private String password = "";
+    private final Password password = new Password();
 
     @Column(name = "PASSWORD_HASH", length = 64)
     @NotNull(message = "Das Passwort darf nicht leer sein.")
@@ -70,7 +73,7 @@ public class User implements Serializable {
 
     public User(String username, String password) {
         this.username = username;
-        this.password = password;
+        this.password.password = password;
         this.passwordHash = this.hashPassword(password);
     }
     //</editor-fold>
@@ -130,10 +133,18 @@ public class User implements Serializable {
      * @param password Neues Passwort
      */
     public void setPassword(String password) {
-        this.password = password;
+        this.password.password = password;
         this.passwordHash = this.hashPassword(password);
     }
 
+    /**
+     * Nur für die Validierung bei einer Passwortänderung!
+     * @return Neues, beim Speichern gesetztes Passwort
+     */
+    public Password getPassword() {
+        return this.password;
+    }
+    
     /**
      * Prüft, ob das übergebene Passwort korrekt ist.
      *

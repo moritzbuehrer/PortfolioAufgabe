@@ -23,7 +23,7 @@
     <jsp:attribute name="head">
         <link rel="stylesheet" href="<c:url value="/css/login.css"/>" />
     </jsp:attribute>
-        
+
     <jsp:attribute name="menu">
         <div class="menuitem">
             <a href="<c:url value="/logout/"/>">Einloggen</a>
@@ -42,24 +42,32 @@
                         Benutzername:
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
+                    <div class="side-by-side">
+                        <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
+                    </div>
 
                     <label for="signup_password1">
                         Passwort:
                         <span class="required">*</span>
                     </label>
-                    <input type="password" name="signup_password1" value="${signup_form.values["signup_password1"][0]}">
+                    <div class="side-by-side">
+                        <input type="password" name="signup_password1" value="${signup_form.values["signup_password1"][0]}">
+                    </div>
 
                     <label for="signup_password2">
                         Passwort (wdh.):
                         <span class="required">*</span>
                     </label>
-                    <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
+                    <div class="side-by-side">
+                        <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
+                    </div>
 
                     <%-- Button zum Abschicken --%>
-                    <button class="icon-pencil" type="submit">
-                        Registrieren
-                    </button>
+                    <div class="side-by-side">
+                        <button class="icon-pencil" type="submit">
+                            Registrieren
+                        </button>
+                    </div>
                 </div>
 
                 <%-- Fehlermeldungen --%>

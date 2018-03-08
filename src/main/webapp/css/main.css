@@ -7,69 +7,84 @@ Webseite: https://www.wpvs.de/
 Dieser Quellcode ist lizenziert unter einer
 Creative Commons Namensnennung 4.0 International Lizenz.
 */
+
 /*
  * ALLGEMEINE LAYOUTOPTIONEN
  */
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
-html,
-body {
-  padding: 0;
-  margin: 0;
+
+html, body {
+    padding: 0;
+    margin: 0;
 }
+
 html {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 14pt;
-  background-color: #fafafa;
-  color: #535b5e;
-  background-image: url(../img/background.png);
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  box-sizing: border-box;
-  height: 100%;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14pt;
+
+    background-color: rgb(250, 250, 250);
+    color: rgb(83, 91, 94);
+
+    background-image: url(../img/background.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    box-sizing: border-box;
+    height: 100%;
 }
+
 @media (max-width: 768px) {
-  html {
-    font-size: 12pt;
-  }
+    html {
+        font-size: 12pt;
+    }
 }
+
 header {
-  background: white;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  margin-bottom: 1rem;
-  position: sticky;
+    background: white;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1rem;
+    position: sticky;
 }
-header,
-main {
-  padding: 1rem;
+
+header, main {
+    padding: 1rem;
 }
+
+/* Titelzeile */
 #titlebar {
-  color: #91cce5;
-  font-size: 260%;
-  margin-bottom: 1rem;
+    color: rgb(145, 204, 229);
+    font-size: 260%;
+    margin-bottom: 1rem;
 }
-#titlebar * {
-  display: inline-block;
-}
-#titlebar .appname {
-  color: #5395b0;
-}
+
 @media (max-width: 768px) {
-  #titlebar {
-    font-size: 160%;
-  }
+    #titlebar {
+        font-size: 160%;
+    }
 }
+
+#titlebar > * {
+    display: inline-block;
+}
+
+#titlebar .appname {
+    color: rgb(83, 149, 176);
+}
+
+/* Menüzeile */
 #menubar .menuitem {
-  display: inline-block;
-  padding-right: 2em;
-  padding-bottom: 0.5em;
+    display: inline-block;
+    padding-right: 2em;
+    padding-bottom: 0.5em;
 }
-a,
-a:visited {
-  color: #c12121;
-  text-decoration: none;
+
+/* Farben für Links */
+a, a:visited {
+    color: rgb(193, 33, 33);
+    text-decoration: none;
 }
+
 a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
-/*# sourceMappingURL=main.css.map */

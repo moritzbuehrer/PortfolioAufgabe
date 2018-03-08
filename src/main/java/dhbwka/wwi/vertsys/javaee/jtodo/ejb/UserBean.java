@@ -55,22 +55,38 @@ public class UserBean {
     }
 
     /**
-     *
-     * @param username
+     * Passwort ändern (ohne zu speichern)
+     * @param user
      * @param oldPassword
      * @param newPassword
      * @throws UserBean.InvalidCredentialsException
      */
     @RolesAllowed("todo-app-user")
-    public void changePassword(String username, String oldPassword, String newPassword) throws InvalidCredentialsException {
-        User user = em.find(User.class, username);
-
+    public void changePassword(User user, String oldPassword, String newPassword) throws InvalidCredentialsException {
         if (user == null || !user.checkPassword(oldPassword)) {
             throw new InvalidCredentialsException("Benutzername oder Passwort sind falsch.");
         }
 
         user.setPassword(newPassword);
-        em.merge(user);
+    }
+    
+    /**
+     * Benutzer löschen
+     * @param user Zu löschender Benutzer
+     */
+    @RolesAllowed("todo-app-user")
+    public void delete(User user) {
+        this.em.remove(user);
+    }
+    
+    /**
+     * Benutzer aktualisieren
+     * @param user Zu aktualisierender Benutzer
+     * @return Gespeicherter Benutzer
+     */
+    @RolesAllowed("todo-app-user")
+    public User update(User user) {
+        return em.merge(user);
     }
 
     /**
