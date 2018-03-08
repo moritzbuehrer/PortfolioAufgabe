@@ -71,12 +71,15 @@ public class Offer implements Serializable {
     public Offer() {
     }
 
-    public Offer(User owner, Category category, String shortText, String longText, Date dueDate, Time dueTime) {
-        this.creator = owner;
+    public Offer(User creator, Category category, String title, String description,
+            Date dateOfCreation, Double price, TypeOfPrice typeOfPrice) {
+        this.creator = creator;
         this.category = category;
-        this.title = shortText;
-        this.description = longText;
-        this.dateOfCreation = dueDate;
+        this.title = title;
+        this.description = description;
+        this.dateOfCreation = dateOfCreation;
+        this.price = price;
+        this.typeOfPrice = typeOfPrice;
     }
     //</editor-fold>
 

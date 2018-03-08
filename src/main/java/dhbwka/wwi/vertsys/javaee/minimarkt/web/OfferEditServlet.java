@@ -15,6 +15,9 @@ import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.UserBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.OfferStatus;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TypeOfOffer;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TypeOfPrice;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.User;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -54,18 +57,18 @@ public class OfferEditServlet extends HttpServlet {
 
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("statuses", OfferStatus.values());
+        request.setAttribute("types", TypeOfOffer.values());
 
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
-        Offer offer = this.getRequestedTask(request);
+        Offer offer = this.getRequestedOffer(request);
         request.setAttribute("edit", offer.getId() != 0);
                                 
         if (session.getAttribute("offer_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("offer_form", this.createTaskForm(offer));
+            request.setAttribute("offer_form", this.createOfferForm(offer));
         }
 
         // Anfrage an die JSP weiterleiten
@@ -80,7 +83,7 @@ public class OfferEditServlet extends HttpServlet {
 
         // Angeforderte Aktion ausführen
         request.setCharacterEncoding("utf-8");
-
+        
         String action = request.getParameter("action");
 
         if (action == null) {
@@ -89,36 +92,35 @@ public class OfferEditServlet extends HttpServlet {
 
         switch (action) {
             case "save":
-                this.saveTask(request, response);
+                this.saveOffer(request, response);
                 break;
             case "delete":
-                this.deleteTask(request, response);
+                this.deleteOffer(request, response);
                 break;
         }
     }
 
-    /**
-     * Aufgerufen in doPost(): Neue oder vorhandene Aufgabe speichern
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    private void saveTask(HttpServletRequest request, HttpServletResponse response)
+    private void saveOffer(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
 
         String offerCategory = request.getParameter("offer_category");
-        String offerDueDate = request.getParameter("offer_due_date");
-        String offerDueTime = request.getParameter("offer_due_time");
-        String offerStatus = request.getParameter("offer_status");
-        String offerShortText = request.getParameter("offer_short_text");
-        String offerLongText = request.getParameter("offer_long_text");
+        String offerDateOfCreation = request.getParameter("offer_date_of_creation");
+        String offerType = request.getParameter("offer_status");
+        String offerTitle = request.getParameter("offer_title");
+        String offerDescription = request.getParameter("offer_description");
+        String offerPrice = request.getParameter("offer_price");
+        String offerTypeOfPrice = request.getParameter("offer_type_of_price");
 
-        Offer offer = this.getRequestedTask(request);
+        Offer offer = this.getRequestedOffer(request);
+        
+        User user = userBean.getCurrentUser();
+        
+        if (!user.getUsername().equals(offer.getCreator().getUsername())) {
+            errors.add("Nur der ersteller hat die Berechtigung ein Angebot zu bearbeiten.");
+        }
 
         if (offerCategory != null && !offerCategory.trim().isEmpty()) {
             try {
@@ -128,29 +130,39 @@ public class OfferEditServlet extends HttpServlet {
             }
         }
 
-        Date dueDate = WebUtils.parseDate(offerDueDate);
-        Time dueTime = WebUtils.parseTime(offerDueTime);
+        Date dateOfCreation = WebUtils.parseDate(offerDateOfCreation);
 
-        if (dueDate != null) {
-            offer.setDateOfCreation(dueDate);
+        if (dateOfCreation != null) {
+            offer.setDateOfCreation(dateOfCreation);
         } else {
             errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
         }
 
-//        if (dueTime != null) {
-//            offer.setDueTime(dueTime);
-//        } else {
-//            errors.add("Die Uhrzeit muss dem Format hh:mm:ss entsprechen.");
-//        }
-//
-//        try {
-//            offer.setStatus(OfferStatus.valueOf(offerStatus));
-//        } catch (IllegalArgumentException ex) {
-//            errors.add("Der ausgewählte Status ist nicht vorhanden.");
-//        }
-//
-//        offer.setShortText(offerShortText);
-//        offer.setLongText(offerLongText);
+        try {
+            offer.setTypeOfOffer(TypeOfOffer.valueOf(offerType));
+        } catch (IllegalArgumentException ex) {
+            errors.add("Der ausgewählte Typ ist nicht vorhanden.");
+        }
+        
+        try {
+            offer.setTypeOfPrice(TypeOfPrice.valueOf(offerTypeOfPrice));
+        } catch (IllegalArgumentException ex) {
+            errors.add("Der ausgewählte Preistyp ist nicht vorhanden.");
+        }
+        
+        double price = 0.0;
+        try {
+            price = Double.parseDouble(offerPrice);
+        } catch (Exception e) {
+            errors.add("Parsen des Preises fehlgeschlagen.");
+        }
+        
+        if (price < 0.0) {
+            errors.add("Der Preis darf nicht negativ sein.");
+        } 
+
+        offer.setTitle(offerTitle);
+        offer.setDescription(offerDescription);
 
         this.validationBean.validate(offer, errors);
 
@@ -158,7 +170,7 @@ public class OfferEditServlet extends HttpServlet {
         if (errors.isEmpty()) {
             this.offerBean.update(offer);
         }
-
+        
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
@@ -176,39 +188,22 @@ public class OfferEditServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Aufgerufen in doPost: Vorhandene Aufgabe löschen
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    private void deleteTask(HttpServletRequest request, HttpServletResponse response)
+    private void deleteOffer(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Datensatz löschen
-        Offer offer = this.getRequestedTask(request);
+        Offer offer = this.getRequestedOffer(request);
         this.offerBean.delete(offer);
 
         // Zurück zur Übersicht
         response.sendRedirect(WebUtils.appUrl(request, "/app/offers/"));
     }
 
-    /**
-     * Zu bearbeitende Aufgabe aus der URL ermitteln und zurückgeben. Gibt
-     * entweder einen vorhandenen Datensatz oder ein neues, leeres Objekt
-     * zurück.
-     *
-     * @param request HTTP-Anfrage
-     * @return Zu bearbeitende Aufgabe
-     */
-    private Offer getRequestedTask(HttpServletRequest request) {
+    private Offer getRequestedOffer(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
         Offer offer = new Offer();
-//        offer.setOwner(this.userBean.getCurrentUser());
+        offer.setCreator(this.userBean.getCurrentUser());
         offer.setDateOfCreation(new Date(System.currentTimeMillis()));
-//        offer.setDueTime(new Time(System.currentTimeMillis()));
 
         // ID aus der URL herausschneiden
         String offerId = request.getPathInfo();
@@ -233,21 +228,11 @@ public class OfferEditServlet extends HttpServlet {
         return offer;
     }
 
-    /**
-     * Neues FormValues-Objekt erzeugen und mit den Daten eines aus der
-     * Datenbank eingelesenen Datensatzes füllen. Dadurch müssen in der JSP
-     * keine hässlichen Fallunterscheidungen gemacht werden, ob die Werte im
-     * Formular aus der Entity oder aus einer vorherigen Formulareingabe
-     * stammen.
-     *
-     * @param offer Die zu bearbeitende Aufgabe
-     * @return Neues, gefülltes FormValues-Objekt
-     */
-    private FormValues createTaskForm(Offer offer) {
+    private FormValues createOfferForm(Offer offer) {
         Map<String, String[]> values = new HashMap<>();
 
-        values.put("offer_owner", new String[]{
-//            offer.getOwner().getUsername()
+        values.put("offer_creator", new String[]{
+            offer.getCreator().getUsername()
         });
 
         if (offer.getCategory() != null) {
@@ -256,25 +241,30 @@ public class OfferEditServlet extends HttpServlet {
             });
         }
 
-        values.put("offer_due_date", new String[]{
+        values.put("offer_date_of_creation", new String[]{
             WebUtils.formatDate(offer.getDateOfCreation())
         });
 
-        values.put("offer_due_time", new String[]{
-//            WebUtils.formatTime(offer.getDueTime())
+        values.put("offer_type", new String[]{
+            offer.getTypeOfOffer().toString()
         });
 
-        values.put("offer_status", new String[]{
-//            offer.getStatus().toString()
+        values.put("offer_title", new String[]{
+            offer.getTitle()
         });
 
-        values.put("offer_short_text", new String[]{
-//            offer.getShortText()
+        values.put("offer_description", new String[]{
+            offer.getDescription()
         });
-
-        values.put("offer_long_text", new String[]{
-//            offer.getLongText()
+        
+        values.put("offer_price", new String[]{
+            Double.toString(offer.getPrice())
         });
+        
+        values.put("offer_type_of_price", new String[]{
+            offer.getTypeOfPrice().toString()
+        });
+        
 
         FormValues formValues = new FormValues();
         formValues.setValues(values);
