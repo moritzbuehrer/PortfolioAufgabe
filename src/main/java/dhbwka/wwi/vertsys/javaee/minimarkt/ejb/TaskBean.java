@@ -10,8 +10,8 @@
 package dhbwka.wwi.vertsys.javaee.minimarkt.ejb;
 
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TaskStatus;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.OfferStatus;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -24,10 +24,10 @@ import javax.persistence.criteria.Root;
  */
 @Stateless
 @RolesAllowed("minimarkt-app-user")
-public class TaskBean extends EntityBean<Task, Long> { 
+public class TaskBean extends EntityBean<Offer, Long> { 
    
     public TaskBean() {
-        super(Task.class);
+        super(Offer.class);
     }
     
     /**
@@ -35,7 +35,7 @@ public class TaskBean extends EntityBean<Task, Long> {
      * @param username Benutzername
      * @return Alle Aufgaben des Benutzers
      */
-    public List<Task> findByUsername(String username) {
+    public List<Offer> findByUsername(String username) {
         return em.createQuery("SELECT t FROM Task t WHERE t.owner.username = :username ORDER BY t.dueDate, t.dueTime")
                  .setParameter("username", username)
                  .getResultList();
@@ -52,13 +52,13 @@ public class TaskBean extends EntityBean<Task, Long> {
      * @param status Status (optional)
      * @return Liste mit den gefundenen Aufgaben
      */
-    public List<Task> search(String search, Category category, TaskStatus status) {
+    public List<Offer> search(String search, Category category, OfferStatus status) {
         // Hilfsobjekt zum Bauen des Query
         CriteriaBuilder cb = this.em.getCriteriaBuilder();
         
         // SELECT t FROM Task t
-        CriteriaQuery<Task> query = cb.createQuery(Task.class);
-        Root<Task> from = query.from(Task.class);
+        CriteriaQuery<Offer> query = cb.createQuery(Offer.class);
+        Root<Offer> from = query.from(Offer.class);
         query.select(from);
 
         // ORDER BY dueDate, dueTime

@@ -13,8 +13,8 @@ import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.UserBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TaskStatus;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.OfferStatus;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -54,12 +54,12 @@ public class TaskEditServlet extends HttpServlet {
 
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("statuses", TaskStatus.values());
+        request.setAttribute("statuses", OfferStatus.values());
 
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
-        Task task = this.getRequestedTask(request);
+        Offer task = this.getRequestedTask(request);
         request.setAttribute("edit", task.getId() != 0);
                                 
         if (session.getAttribute("task_form") == null) {
@@ -118,7 +118,7 @@ public class TaskEditServlet extends HttpServlet {
         String taskShortText = request.getParameter("task_short_text");
         String taskLongText = request.getParameter("task_long_text");
 
-        Task task = this.getRequestedTask(request);
+        Offer task = this.getRequestedTask(request);
 
         if (taskCategory != null && !taskCategory.trim().isEmpty()) {
             try {
@@ -144,7 +144,7 @@ public class TaskEditServlet extends HttpServlet {
         }
 
         try {
-            task.setStatus(TaskStatus.valueOf(taskStatus));
+            task.setStatus(OfferStatus.valueOf(taskStatus));
         } catch (IllegalArgumentException ex) {
             errors.add("Der ausgewählte Status ist nicht vorhanden.");
         }
@@ -188,7 +188,7 @@ public class TaskEditServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Datensatz löschen
-        Task task = this.getRequestedTask(request);
+        Offer task = this.getRequestedTask(request);
         this.taskBean.delete(task);
 
         // Zurück zur Übersicht
@@ -203,9 +203,9 @@ public class TaskEditServlet extends HttpServlet {
      * @param request HTTP-Anfrage
      * @return Zu bearbeitende Aufgabe
      */
-    private Task getRequestedTask(HttpServletRequest request) {
+    private Offer getRequestedTask(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        Task task = new Task();
+        Offer task = new Offer();
         task.setOwner(this.userBean.getCurrentUser());
         task.setDueDate(new Date(System.currentTimeMillis()));
         task.setDueTime(new Time(System.currentTimeMillis()));
@@ -243,7 +243,7 @@ public class TaskEditServlet extends HttpServlet {
      * @param task Die zu bearbeitende Aufgabe
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createTaskForm(Task task) {
+    private FormValues createTaskForm(Offer task) {
         Map<String, String[]> values = new HashMap<>();
 
         values.put("task_owner", new String[]{

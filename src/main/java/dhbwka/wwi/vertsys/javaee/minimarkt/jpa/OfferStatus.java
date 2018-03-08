@@ -12,7 +12,7 @@ package dhbwka.wwi.vertsys.javaee.minimarkt.jpa;
 /**
  * Statuswerte einer Aufgabe.
  */
-public enum TaskStatus {
+public enum OfferStatus {
     OPEN, IN_PROGRESS, FINISHED, CANCELED, POSTPONED;
 
     /**

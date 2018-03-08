@@ -65,7 +65,7 @@ public class User implements Serializable {
     List<String> groups = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<Task> tasks = new ArrayList<>();
+    List<Offer> tasks = new ArrayList<>();
 
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public User() {
@@ -87,11 +87,11 @@ public class User implements Serializable {
         this.username = id;
     }
 
-    public List<Task> getTasks() {
+    public List<Offer> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
+    public void setTasks(List<Offer> tasks) {
         this.tasks = tasks;
     }
     //</editor-fold>
