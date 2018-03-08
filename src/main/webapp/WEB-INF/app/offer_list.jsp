@@ -47,7 +47,7 @@
                 </c:forEach>
             </select>
 
-            <select name="search_status">
+            <select name="search_type">
                 <option value="">Alle Typen</option>
 
                 <c:forEach items="${types}" var="type">
