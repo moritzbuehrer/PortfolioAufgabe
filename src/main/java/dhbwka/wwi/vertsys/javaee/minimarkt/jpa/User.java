@@ -28,6 +28,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -55,6 +56,31 @@ public class User implements Serializable {
     @Column(name = "PASSWORD_HASH", length = 64)
     @NotNull(message = "Das Passwort darf nicht leer sein.")
     private String passwordHash;
+    
+    @Column(name = "name", length = 64)
+    @NotNull(message = "Der Name darf nicht leer sein.")
+    private String name;
+    
+    @Column(name = "adresse", length = 64)
+    @NotNull(message = "Die Adresse darf nicht leer sein.")
+    private String adresse;
+    
+    @Column(name = "plz", length = 64)
+    @NotNull(message = "Die PLZ darf nicht leer sein.")
+    private String plz;
+    
+    @Column(name = "stadt", length = 64)
+    @NotNull(message = "Die Stadt darf nicht leer sein.")
+    private String stadt;
+    
+    @Column(name = "tel", length = 64)
+    @NotNull(message = "Die Telefonnummer darf nicht leer sein.")
+    private String tel;
+    
+    @Column(name = "email", length = 64)
+    @NotNull(message = "Die Email darf nicht leer sein.")
+    @Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$", message = "Ungültige E-Mail Adresse.")
+    private String email;
 
     @ElementCollection
     @CollectionTable(
@@ -71,14 +97,69 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String name, String adresse, String plz, String stadt, String tel, String email) {
         this.username = username;
         this.password.password = password;
         this.passwordHash = this.hashPassword(password);
-    }
+        this.name = name;
+        this.adresse = adresse;
+        this.plz = plz;
+        this.stadt = stadt;
+        this.tel = tel;
+        this.email = email;
+    } 
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Setter und Getter">
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getPlz() {
+        return plz;
+    }
+
+    public void setPlz(String plz) {
+        this.plz = plz;
+    }
+
+    public String getStadt() {
+        return stadt;
+    }
+
+    public void setStadt(String stadt) {
+        this.stadt = stadt;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     public String getUsername() {
         return username;
     }

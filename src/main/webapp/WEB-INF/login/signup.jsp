@@ -36,7 +36,9 @@
                 <div class="column">
                     <%-- CSRF-Token --%>
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
-
+                    <div>
+                        <h1> Logindaten </h1>
+                    </div>
                     <%-- Eingabefelder --%>
                     <label for="signup_username">
                         Benutzername:
@@ -61,6 +63,55 @@
                     <div class="side-by-side">
                         <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
                     </div>
+                    
+                    <div>
+                        <h1> Anschrift </h1>
+                    </div>
+                                        <%-- Eingabefelder --%>
+                    <label for="signup_name">
+                        Vor- und Nachname:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="text" name="signup_name" value="${signup_form.values["signup_name"][0]}">
+                    </div>
+                    
+                    <label for="signup_anschrift">
+                        StraÃŸe und Hausnummer:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="text" name="signup_adresse" value="${signup_form.values["signup_adresse"][0]}">
+                    </div>
+                    
+                    <label for="signup_plz" for ="singup_stadt">
+                        Postleitzahl und Ort:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="number" name="signup_plz" value="${signup_form.values["signup_plz"][0]}"><input type="text" name="signup_stadt" value="${signup_form.values["signup_stadt"][0]}">
+                    </div>
+                    
+                    <div>
+                        <h1> Kontaktdaten </h1>
+                    </div>
+                    
+                    <label for="signup_tel">
+                        Telefonnummer:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="number" name="signup_tel" value="${signup_form.values["signup_tel"][0]}">
+                    </div>
+                    
+                    <label for="signup_email">
+                        E-Mail:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="text" name="signup_email" value="${signup_form.values["signup_email"][0]}">
+                    </div>
+
 
                     <%-- Button zum Abschicken --%>
                     <div class="side-by-side">

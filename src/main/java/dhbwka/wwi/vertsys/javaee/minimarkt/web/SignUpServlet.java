@@ -59,9 +59,15 @@ public class SignUpServlet extends HttpServlet {
         String username = request.getParameter("signup_username");
         String password1 = request.getParameter("signup_password1");
         String password2 = request.getParameter("signup_password2");
-        
+        String name = request.getParameter("signup_name");
+        String adresse = request.getParameter("signup_adresse");
+        String stadt = request.getParameter("signup_stadt");
+        String plz = request.getParameter("signup_plz");
+        String tel = request.getParameter("signup_tel");
+        String email = request.getParameter("signup_email");
+
         // Eingaben prüfen
-        User user = new User(username, password1);
+        User user = new User(username, password1, name, adresse, plz, stadt, tel, email);
         List<String> errors = this.validationBean.validate(user);
         this.validationBean.validate(user.getPassword(), errors);
         
@@ -72,7 +78,7 @@ public class SignUpServlet extends HttpServlet {
         // Neuen Benutzer anlegen
         if (errors.isEmpty()) {
             try {
-                this.userBean.signup(username, password1);
+                this.userBean.signup(username, password1, name, adresse, plz, stadt, tel, email);
             } catch (UserBean.UserAlreadyExistsException ex) {
                 errors.add(ex.getMessage());
             }
