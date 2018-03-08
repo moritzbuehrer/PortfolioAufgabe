@@ -47,12 +47,12 @@ public class OfferListServlet extends HttpServlet {
         request.setAttribute("price_types", TypeOfPrice.values());
 
         // Suchparameter aus der URL auslesen
-        String searchText = request.getParameter("search_text");
-        String searchCategory = request.getParameter("search_category");
-        String searchType = request.getParameter("search_type");
+        String searchText       = request.getParameter("search_text");
+        String searchCategory   = request.getParameter("search_category");
+        String searchType       = request.getParameter("search_type");
 
         // Anzuzeigende Aufgaben suchen
-        Category category = null;
+        Category    category    = null;
         TypeOfOffer typeOfOffer = null;
 
         if (searchCategory != null) {
