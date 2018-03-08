@@ -13,7 +13,7 @@ import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.OfferBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.OfferStatus;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TypeOfOffer;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -27,14 +27,14 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet für die Startseite bzw. jede Seite, die eine Liste der Aufgaben
  * zeigt.
  */
-@WebServlet(urlPatterns = {"/app/tasks/"})
+@WebServlet(urlPatterns = {"/app/offers/"})
 public class OfferListServlet extends HttpServlet {
 
     @EJB
     private CategoryBean categoryBean;
     
     @EJB
-    private OfferBean taskBean;
+    private OfferBean offerBean;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,16 +42,16 @@ public class OfferListServlet extends HttpServlet {
 
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("statuses", OfferStatus.values());
+        request.setAttribute("types", TypeOfOffer.values());
 
         // Suchparameter aus der URL auslesen
         String searchText = request.getParameter("search_text");
         String searchCategory = request.getParameter("search_category");
-        String searchStatus = request.getParameter("search_status");
+        String searchType = request.getParameter("search_type");
 
         // Anzuzeigende Aufgaben suchen
         Category category = null;
-        OfferStatus status = null;
+        TypeOfOffer typeOfOffer = null;
 
         if (searchCategory != null) {
             try {
@@ -61,19 +61,19 @@ public class OfferListServlet extends HttpServlet {
             }
         }
 
-        if (searchStatus != null) {
+        if (searchType != null) {
             try {
-                status = OfferStatus.valueOf(searchStatus);
+                typeOfOffer = TypeOfOffer.valueOf(searchType);
             } catch (IllegalArgumentException ex) {
-                status = null;
+                typeOfOffer = null;
             }
 
         }
 
-        List<Offer> tasks = this.taskBean.search(searchText, category, status);
+        List<Offer> tasks = this.offerBean.search(searchText, category, typeOfOffer);
         request.setAttribute("tasks", tasks);
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_list.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/offer_list.jsp").forward(request, response);
     }
 }

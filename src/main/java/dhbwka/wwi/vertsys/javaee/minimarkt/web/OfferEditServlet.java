@@ -33,11 +33,11 @@ import javax.servlet.http.HttpSession;
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/task/*")
+@WebServlet(urlPatterns = "/app/offer/*")
 public class OfferEditServlet extends HttpServlet {
 
     @EJB
-    OfferBean taskBean;
+    OfferBean offerBean;
 
     @EJB
     CategoryBean categoryBean;
@@ -59,19 +59,19 @@ public class OfferEditServlet extends HttpServlet {
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
-        Offer task = this.getRequestedTask(request);
-        request.setAttribute("edit", task.getId() != 0);
+        Offer offer = this.getRequestedTask(request);
+        request.setAttribute("edit", offer.getId() != 0);
                                 
-        if (session.getAttribute("task_form") == null) {
+        if (session.getAttribute("offer_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("task_form", this.createTaskForm(task));
+            request.setAttribute("offer_form", this.createTaskForm(offer));
         }
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_edit.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/offer_edit.jsp").forward(request, response);
 
-        session.removeAttribute("task_form");
+        session.removeAttribute("offer_form");
     }
 
     @Override
@@ -111,58 +111,58 @@ public class OfferEditServlet extends HttpServlet {
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
 
-        String taskCategory = request.getParameter("task_category");
-        String taskDueDate = request.getParameter("task_due_date");
-        String taskDueTime = request.getParameter("task_due_time");
-        String taskStatus = request.getParameter("task_status");
-        String taskShortText = request.getParameter("task_short_text");
-        String taskLongText = request.getParameter("task_long_text");
+        String offerCategory = request.getParameter("offer_category");
+        String offerDueDate = request.getParameter("offer_due_date");
+        String offerDueTime = request.getParameter("offer_due_time");
+        String offerStatus = request.getParameter("offer_status");
+        String offerShortText = request.getParameter("offer_short_text");
+        String offerLongText = request.getParameter("offer_long_text");
 
-        Offer task = this.getRequestedTask(request);
+        Offer offer = this.getRequestedTask(request);
 
-        if (taskCategory != null && !taskCategory.trim().isEmpty()) {
+        if (offerCategory != null && !offerCategory.trim().isEmpty()) {
             try {
-                task.setCategory(this.categoryBean.findById(Long.parseLong(taskCategory)));
+                offer.setCategory(this.categoryBean.findById(Long.parseLong(offerCategory)));
             } catch (NumberFormatException ex) {
                 // Ungültige oder keine ID mitgegeben
             }
         }
 
-        Date dueDate = WebUtils.parseDate(taskDueDate);
-        Time dueTime = WebUtils.parseTime(taskDueTime);
+        Date dueDate = WebUtils.parseDate(offerDueDate);
+        Time dueTime = WebUtils.parseTime(offerDueTime);
 
         if (dueDate != null) {
-            task.setDateOfCreation(dueDate);
+            offer.setDateOfCreation(dueDate);
         } else {
             errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
         }
 
 //        if (dueTime != null) {
-//            task.setDueTime(dueTime);
+//            offer.setDueTime(dueTime);
 //        } else {
 //            errors.add("Die Uhrzeit muss dem Format hh:mm:ss entsprechen.");
 //        }
 //
 //        try {
-//            task.setStatus(OfferStatus.valueOf(taskStatus));
+//            offer.setStatus(OfferStatus.valueOf(offerStatus));
 //        } catch (IllegalArgumentException ex) {
 //            errors.add("Der ausgewählte Status ist nicht vorhanden.");
 //        }
 //
-//        task.setShortText(taskShortText);
-//        task.setLongText(taskLongText);
+//        offer.setShortText(offerShortText);
+//        offer.setLongText(offerLongText);
 
-        this.validationBean.validate(task, errors);
+        this.validationBean.validate(offer, errors);
 
         // Datensatz speichern
         if (errors.isEmpty()) {
-            this.taskBean.update(task);
+            this.offerBean.update(offer);
         }
 
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+            response.sendRedirect(WebUtils.appUrl(request, "/app/offers/"));
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
@@ -170,7 +170,7 @@ public class OfferEditServlet extends HttpServlet {
             formValues.setErrors(errors);
 
             HttpSession session = request.getSession();
-            session.setAttribute("task_form", formValues);
+            session.setAttribute("offer_form", formValues);
 
             response.sendRedirect(request.getRequestURI());
         }
@@ -188,11 +188,11 @@ public class OfferEditServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Datensatz löschen
-        Offer task = this.getRequestedTask(request);
-        this.taskBean.delete(task);
+        Offer offer = this.getRequestedTask(request);
+        this.offerBean.delete(offer);
 
         // Zurück zur Übersicht
-        response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+        response.sendRedirect(WebUtils.appUrl(request, "/app/offers/"));
     }
 
     /**
@@ -205,32 +205,32 @@ public class OfferEditServlet extends HttpServlet {
      */
     private Offer getRequestedTask(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        Offer task = new Offer();
-//        task.setOwner(this.userBean.getCurrentUser());
-        task.setDateOfCreation(new Date(System.currentTimeMillis()));
-//        task.setDueTime(new Time(System.currentTimeMillis()));
+        Offer offer = new Offer();
+//        offer.setOwner(this.userBean.getCurrentUser());
+        offer.setDateOfCreation(new Date(System.currentTimeMillis()));
+//        offer.setDueTime(new Time(System.currentTimeMillis()));
 
         // ID aus der URL herausschneiden
-        String taskId = request.getPathInfo();
+        String offerId = request.getPathInfo();
 
-        if (taskId == null) {
-            taskId = "";
+        if (offerId == null) {
+            offerId = "";
         }
 
-        taskId = taskId.substring(1);
+        offerId = offerId.substring(1);
 
-        if (taskId.endsWith("/")) {
-            taskId = taskId.substring(0, taskId.length() - 1);
+        if (offerId.endsWith("/")) {
+            offerId = offerId.substring(0, offerId.length() - 1);
         }
 
         // Versuchen, den Datensatz mit der übergebenen ID zu finden
         try {
-            task = this.taskBean.findById(Long.parseLong(taskId));
+            offer = this.offerBean.findById(Long.parseLong(offerId));
         } catch (NumberFormatException ex) {
             // Ungültige oder keine ID in der URL enthalten
         }
 
-        return task;
+        return offer;
     }
 
     /**
@@ -240,40 +240,40 @@ public class OfferEditServlet extends HttpServlet {
      * Formular aus der Entity oder aus einer vorherigen Formulareingabe
      * stammen.
      *
-     * @param task Die zu bearbeitende Aufgabe
+     * @param offer Die zu bearbeitende Aufgabe
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createTaskForm(Offer task) {
+    private FormValues createTaskForm(Offer offer) {
         Map<String, String[]> values = new HashMap<>();
 
-        values.put("task_owner", new String[]{
-//            task.getOwner().getUsername()
+        values.put("offer_owner", new String[]{
+//            offer.getOwner().getUsername()
         });
 
-        if (task.getCategory() != null) {
-            values.put("task_category", new String[]{
-                task.getCategory().toString()
+        if (offer.getCategory() != null) {
+            values.put("offer_category", new String[]{
+                offer.getCategory().toString()
             });
         }
 
-        values.put("task_due_date", new String[]{
-            WebUtils.formatDate(task.getDateOfCreation())
+        values.put("offer_due_date", new String[]{
+            WebUtils.formatDate(offer.getDateOfCreation())
         });
 
-        values.put("task_due_time", new String[]{
-//            WebUtils.formatTime(task.getDueTime())
+        values.put("offer_due_time", new String[]{
+//            WebUtils.formatTime(offer.getDueTime())
         });
 
-        values.put("task_status", new String[]{
-//            task.getStatus().toString()
+        values.put("offer_status", new String[]{
+//            offer.getStatus().toString()
         });
 
-        values.put("task_short_text", new String[]{
-//            task.getShortText()
+        values.put("offer_short_text", new String[]{
+//            offer.getShortText()
         });
 
-        values.put("task_long_text", new String[]{
-//            task.getLongText()
+        values.put("offer_long_text", new String[]{
+//            offer.getLongText()
         });
 
         FormValues formValues = new FormValues();

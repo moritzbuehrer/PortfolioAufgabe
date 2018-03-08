@@ -37,7 +37,7 @@ public class CategoryListServlet extends HttpServlet {
     CategoryBean categoryBean;
     
     @EJB
-    OfferBean taskBean;
+    OfferBean offerBean;
 
     @EJB
     ValidationBean validationBean;
@@ -150,9 +150,9 @@ public class CategoryListServlet extends HttpServlet {
             }
             
             // Bei allen betroffenen Aufgaben, den Bezug zur Kategorie aufheben
-            category.getTasks().forEach((Offer task) -> {
-                task.setCategory(null);
-                this.taskBean.update(task);
+            category.getTasks().forEach((Offer offer) -> {
+                offer.setCategory(null);
+                this.offerBean.update(offer);
             });
             
             // Und weg damit

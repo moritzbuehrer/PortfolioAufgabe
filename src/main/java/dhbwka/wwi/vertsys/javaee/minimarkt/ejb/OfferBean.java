@@ -11,7 +11,7 @@ package dhbwka.wwi.vertsys.javaee.minimarkt.ejb;
 
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.OfferStatus;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TypeOfOffer;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -36,23 +36,13 @@ public class OfferBean extends EntityBean<Offer, Long> {
      * @return Alle Aufgaben des Benutzers
      */
     public List<Offer> findByUsername(String username) {
-        return em.createQuery("SELECT t FROM Task t WHERE t.owner.username = :username ORDER BY t.dueDate, t.dueTime")
+        return em.createQuery("SELECT o FROM Offer o WHERE o.creator.username = :username ORDER BY o.dateOfCreation")
                  .setParameter("username", username)
                  .getResultList();
     }
     
-    /**
-     * Suche nach Aufgaben anhand ihrer Bezeichnung, Kategorie und Status.
-     * 
-     * Anders als in der Vorlesung behandelt, wird die SELECT-Anfrage hier
-     * mit der CriteriaBuilder-API vollkommen dynamisch erzeugt.
-     * 
-     * @param search In der Kurzbeschreibung enthaltener Text (optional)
-     * @param category Kategorie (optional)
-     * @param status Status (optional)
-     * @return Liste mit den gefundenen Aufgaben
-     */
-    public List<Offer> search(String search, Category category, OfferStatus status) {
+
+    public List<Offer> search(String search, Category category, TypeOfOffer typeOfOffer) {
         // Hilfsobjekt zum Bauen des Query
         CriteriaBuilder cb = this.em.getCriteriaBuilder();
         
@@ -62,11 +52,11 @@ public class OfferBean extends EntityBean<Offer, Long> {
         query.select(from);
 
         // ORDER BY dueDate, dueTime
-        query.orderBy(cb.asc(from.get("dueDate")), cb.asc(from.get("dueTime")));
+        query.orderBy(cb.asc(from.get("dateOfCreation")));
         
         // WHERE t.shortText LIKE :search
         if (search != null && !search.trim().isEmpty()) {
-            query.where(cb.like(from.get("shortText"), "%" + search + "%"));
+            query.where(cb.like(from.get("title"), "%" + search + "%"));
         }
         
         // WHERE t.category = :category
@@ -75,8 +65,8 @@ public class OfferBean extends EntityBean<Offer, Long> {
         }
         
         // WHERE t.status = :status
-        if (status != null) {
-            query.where(cb.equal(from.get("status"), status));
+        if (typeOfOffer != null) {
+            query.where(cb.equal(from.get("typeOfOffer"), typeOfOffer));
         }
         
         return em.createQuery(query).getResultList();
