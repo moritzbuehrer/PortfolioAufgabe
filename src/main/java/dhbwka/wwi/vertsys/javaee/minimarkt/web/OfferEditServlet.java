@@ -149,6 +149,8 @@ public class OfferEditServlet extends HttpServlet {
             errors.add("Der ausgewählte Preistyp ist nicht vorhanden.");
         }
         
+        offerPrice = offerPrice.replace(",", ".");
+        
         double price = 0.0;
         try {
             price = Double.parseDouble(offerPrice);
@@ -158,7 +160,9 @@ public class OfferEditServlet extends HttpServlet {
         
         if (price < 0.0) {
             errors.add("Der Preis darf nicht negativ sein.");
-        } 
+        }
+        
+        offer.setPrice((double)Math.round(price * 100d) / 100d);
 
         offer.setTitle(offerTitle);        
         offer.setDescription(offerDescription);
