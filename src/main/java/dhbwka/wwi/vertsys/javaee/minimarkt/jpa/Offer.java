@@ -38,42 +38,45 @@ public class Offer implements Serializable {
     private long id;
 
     @ManyToOne
-    @NotNull(message = "Die Aufgabe muss einem Benutzer geordnet werden.")
-    private User owner;
+    @NotNull(message = "Das Angebot muss einem Ersteller zugewiesen sein.")
+    private User creator;
 
     @ManyToOne
     private Category category;
+    
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private TypeOfOffer typeOfOffer;
 
     @Column(length = 50)
-    @NotNull(message = "Die Bezeichnung darf nicht leer sein.")
-    @Size(min = 1, max = 50, message = "Die Bezeichnung muss zwischen ein und 50 Zeichen lang sein.")
-    private String shortText;
+    @NotNull(message = "Der Titel darf nicht leer sein.")
+    @Size(min = 1, max = 50, message = "Der Titel muss zwischen ein und 50 Zeichen lang sein.")
+    private String title;
 
     @Lob
     @NotNull
-    private String longText;
+    private String description;
 
-    @NotNull(message = "Das Datum darf nicht leer sein.")
-    private Date dueDate;
+    @NotNull(message = "Das Erstelldatum darf nicht leer sein.")
+    private Date dateOfCreation;
 
-    @NotNull(message = "Die Uhrzeit darf nicht leer sein.")
-    private Time dueTime;
+    @NotNull
+    private double price;
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private OfferStatus status = OfferStatus.OPEN;
+    private TypeOfPrice typeOfPrice;
 
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Offer() {
     }
 
     public Offer(User owner, Category category, String shortText, String longText, Date dueDate, Time dueTime) {
-        this.owner = owner;
+        this.creator = owner;
         this.category = category;
-        this.shortText = shortText;
-        this.longText = longText;
-        this.dueDate = dueDate;
-        this.dueTime = dueTime;
+        this.title = shortText;
+        this.description = longText;
+        this.dateOfCreation = dueDate;
     }
     //</editor-fold>
 
@@ -86,12 +89,12 @@ public class Offer implements Serializable {
         this.id = id;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     public Category getCategory() {
@@ -102,45 +105,72 @@ public class Offer implements Serializable {
         this.category = category;
     }
 
-    public String getShortText() {
-        return shortText;
+    public String getTitle() {
+        return title;
     }
 
-    public void setShortText(String shortText) {
-        this.shortText = shortText;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getLongText() {
-        return longText;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLongText(String longText) {
-        this.longText = longText;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public Date getDateOfCreation() {
+        return dateOfCreation;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setDateOfCreation(Date dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
     }
 
-    public Time getDueTime() {
-        return dueTime;
+    /**
+     * @return the typeOfOffer
+     */
+    public TypeOfOffer getTypeOfOffer() {
+        return typeOfOffer;
     }
 
-    public void setDueTime(Time dueTime) {
-        this.dueTime = dueTime;
+    /**
+     * @param typeOfOffer the typeOfOffer to set
+     */
+    public void setTypeOfOffer(TypeOfOffer typeOfOffer) {
+        this.typeOfOffer = typeOfOffer;
     }
 
-    public OfferStatus getStatus() {
-        return status;
+    /**
+     * @return the price
+     */
+    public double getPrice() {
+        return price;
     }
 
-    public void setStatus(OfferStatus status) {
-        this.status = status;
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(double price) {
+        this.price = price;
     }
+
+    /**
+     * @return the typeOfPrice
+     */
+    public TypeOfPrice getTypeOfPrice() {
+        return typeOfPrice;
+    }
+
+    /**
+     * @param typeOfPrice the typeOfPrice to set
+     */
+    public void setTypeOfPrice(TypeOfPrice typeOfPrice) {
+        this.typeOfPrice = typeOfPrice;
+    }
+
     //</editor-fold>
-
+    
 }

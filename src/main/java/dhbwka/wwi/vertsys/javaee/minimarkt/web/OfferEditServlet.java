@@ -132,25 +132,25 @@ public class OfferEditServlet extends HttpServlet {
         Time dueTime = WebUtils.parseTime(taskDueTime);
 
         if (dueDate != null) {
-            task.setDueDate(dueDate);
+            task.setDateOfCreation(dueDate);
         } else {
             errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
         }
 
-        if (dueTime != null) {
-            task.setDueTime(dueTime);
-        } else {
-            errors.add("Die Uhrzeit muss dem Format hh:mm:ss entsprechen.");
-        }
-
-        try {
-            task.setStatus(OfferStatus.valueOf(taskStatus));
-        } catch (IllegalArgumentException ex) {
-            errors.add("Der ausgewählte Status ist nicht vorhanden.");
-        }
-
-        task.setShortText(taskShortText);
-        task.setLongText(taskLongText);
+//        if (dueTime != null) {
+//            task.setDueTime(dueTime);
+//        } else {
+//            errors.add("Die Uhrzeit muss dem Format hh:mm:ss entsprechen.");
+//        }
+//
+//        try {
+//            task.setStatus(OfferStatus.valueOf(taskStatus));
+//        } catch (IllegalArgumentException ex) {
+//            errors.add("Der ausgewählte Status ist nicht vorhanden.");
+//        }
+//
+//        task.setShortText(taskShortText);
+//        task.setLongText(taskLongText);
 
         this.validationBean.validate(task, errors);
 
@@ -206,9 +206,9 @@ public class OfferEditServlet extends HttpServlet {
     private Offer getRequestedTask(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
         Offer task = new Offer();
-        task.setOwner(this.userBean.getCurrentUser());
-        task.setDueDate(new Date(System.currentTimeMillis()));
-        task.setDueTime(new Time(System.currentTimeMillis()));
+//        task.setOwner(this.userBean.getCurrentUser());
+        task.setDateOfCreation(new Date(System.currentTimeMillis()));
+//        task.setDueTime(new Time(System.currentTimeMillis()));
 
         // ID aus der URL herausschneiden
         String taskId = request.getPathInfo();
@@ -247,7 +247,7 @@ public class OfferEditServlet extends HttpServlet {
         Map<String, String[]> values = new HashMap<>();
 
         values.put("task_owner", new String[]{
-            task.getOwner().getUsername()
+//            task.getOwner().getUsername()
         });
 
         if (task.getCategory() != null) {
@@ -257,23 +257,23 @@ public class OfferEditServlet extends HttpServlet {
         }
 
         values.put("task_due_date", new String[]{
-            WebUtils.formatDate(task.getDueDate())
+            WebUtils.formatDate(task.getDateOfCreation())
         });
 
         values.put("task_due_time", new String[]{
-            WebUtils.formatTime(task.getDueTime())
+//            WebUtils.formatTime(task.getDueTime())
         });
 
         values.put("task_status", new String[]{
-            task.getStatus().toString()
+//            task.getStatus().toString()
         });
 
         values.put("task_short_text", new String[]{
-            task.getShortText()
+//            task.getShortText()
         });
 
         values.put("task_long_text", new String[]{
-            task.getLongText()
+//            task.getLongText()
         });
 
         FormValues formValues = new FormValues();
