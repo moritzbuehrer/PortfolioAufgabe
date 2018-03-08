@@ -59,12 +59,10 @@ public class OfferBean extends EntityBean<Offer, Long> {
             query.where(cb.like(from.get("title"), "%" + search + "%"));
         }
         
-        // WHERE t.category = :category
         if (category != null) {
             query.where(cb.equal(from.get("category"), category));
         }
         
-        // WHERE t.status = :status
         if (typeOfOffer != null) {
             query.where(cb.equal(from.get("typeOfOffer"), typeOfOffer));
         }
