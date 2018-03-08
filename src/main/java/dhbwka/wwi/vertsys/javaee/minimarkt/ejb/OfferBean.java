@@ -24,9 +24,9 @@ import javax.persistence.criteria.Root;
  */
 @Stateless
 @RolesAllowed("minimarkt-app-user")
-public class TaskBean extends EntityBean<Offer, Long> { 
+public class OfferBean extends EntityBean<Offer, Long> { 
    
-    public TaskBean() {
+    public OfferBean() {
         super(Offer.class);
     }
     

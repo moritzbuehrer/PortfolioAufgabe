@@ -10,7 +10,7 @@
 package dhbwka.wwi.vertsys.javaee.minimarkt.web;
 
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
+import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.OfferBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.UserBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
@@ -34,10 +34,10 @@ import javax.servlet.http.HttpSession;
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
 @WebServlet(urlPatterns = "/app/task/*")
-public class TaskEditServlet extends HttpServlet {
+public class OfferEditServlet extends HttpServlet {
 
     @EJB
-    TaskBean taskBean;
+    OfferBean taskBean;
 
     @EJB
     CategoryBean categoryBean;

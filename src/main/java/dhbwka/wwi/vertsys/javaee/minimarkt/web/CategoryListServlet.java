@@ -10,7 +10,7 @@
 package dhbwka.wwi.vertsys.javaee.minimarkt.web;
 
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
+import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.OfferBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
@@ -37,7 +37,7 @@ public class CategoryListServlet extends HttpServlet {
     CategoryBean categoryBean;
     
     @EJB
-    TaskBean taskBean;
+    OfferBean taskBean;
 
     @EJB
     ValidationBean validationBean;

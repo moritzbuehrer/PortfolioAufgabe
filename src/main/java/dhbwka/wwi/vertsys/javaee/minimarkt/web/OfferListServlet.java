@@ -10,7 +10,7 @@
 package dhbwka.wwi.vertsys.javaee.minimarkt.web;
 
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
+import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.OfferBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.OfferStatus;
@@ -28,13 +28,13 @@ import javax.servlet.http.HttpServletResponse;
  * zeigt.
  */
 @WebServlet(urlPatterns = {"/app/tasks/"})
-public class TaskListServlet extends HttpServlet {
+public class OfferListServlet extends HttpServlet {
 
     @EJB
     private CategoryBean categoryBean;
     
     @EJB
-    private TaskBean taskBean;
+    private OfferBean taskBean;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
