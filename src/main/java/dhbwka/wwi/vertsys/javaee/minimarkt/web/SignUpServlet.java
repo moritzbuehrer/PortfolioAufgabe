@@ -7,11 +7,11 @@
  * Dieser Quellcode ist lizenziert unter einer
  * Creative Commons Namensnennung 4.0 International Lizenz.
  */
-package dhbwka.wwi.vertsys.javaee.jtodo.web;
+package dhbwka.wwi.vertsys.javaee.minimarkt.web;
 
-import dhbwka.wwi.vertsys.javaee.jtodo.ejb.ValidationBean;
-import dhbwka.wwi.vertsys.javaee.jtodo.ejb.UserBean;
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.User;
+import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
+import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.UserBean;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.User;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;

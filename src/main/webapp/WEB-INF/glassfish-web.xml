@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
 <glassfish-web-app error-url="">
-    <context-root>/jtodo</context-root>
+    <context-root>/minimarkt</context-root>
     
     <security-role-mapping>
-        <role-name>todo-app-user</role-name>
-        <group-name>todo-app-user</group-name>
+        <role-name>minimarkt-app-user</role-name>
+        <group-name>minimarkt-app-user</group-name>
     </security-role-mapping>
     
     <class-loader delegate="true"/>

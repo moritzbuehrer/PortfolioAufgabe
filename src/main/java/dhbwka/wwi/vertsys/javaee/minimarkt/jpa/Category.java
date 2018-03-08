@@ -7,7 +7,7 @@
  * Dieser Quellcode ist lizenziert unter einer
  * Creative Commons Namensnennung 4.0 International Lizenz.
  */
-package dhbwka.wwi.vertsys.javaee.jtodo.jpa;
+package dhbwka.wwi.vertsys.javaee.minimarkt.jpa;
 
 import java.io.Serializable;
 import java.util.ArrayList;

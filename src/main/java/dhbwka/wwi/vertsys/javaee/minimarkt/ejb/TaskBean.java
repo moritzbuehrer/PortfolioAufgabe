@@ -7,11 +7,11 @@
  * Dieser Quellcode ist lizenziert unter einer
  * Creative Commons Namensnennung 4.0 International Lizenz.
  */
-package dhbwka.wwi.vertsys.javaee.jtodo.ejb;
+package dhbwka.wwi.vertsys.javaee.minimarkt.ejb;
 
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.Category;
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.Task;
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.TaskStatus;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TaskStatus;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -23,7 +23,7 @@ import javax.persistence.criteria.Root;
  * Einfache EJB mit den üblichen CRUD-Methoden für Aufgaben
  */
 @Stateless
-@RolesAllowed("todo-app-user")
+@RolesAllowed("minimarkt-app-user")
 public class TaskBean extends EntityBean<Task, Long> { 
    
     public TaskBean() {

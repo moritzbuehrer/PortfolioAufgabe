@@ -6,7 +6,7 @@
     
     <persistence-unit-metadata>
         <persistence-unit-defaults>
-            <schema>JTODO</schema>
+            <schema>Minimarkt</schema>
         </persistence-unit-defaults>
     </persistence-unit-metadata>
     
