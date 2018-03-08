@@ -14,6 +14,7 @@ import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.OfferBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TypeOfOffer;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TypeOfPrice;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -43,6 +44,7 @@ public class OfferListServlet extends HttpServlet {
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
         request.setAttribute("types", TypeOfOffer.values());
+        request.setAttribute("price_types", TypeOfPrice.values());
 
         // Suchparameter aus der URL auslesen
         String searchText = request.getParameter("search_text");
@@ -70,8 +72,8 @@ public class OfferListServlet extends HttpServlet {
 
         }
 
-        List<Offer> tasks = this.offerBean.search(searchText, category, typeOfOffer);
-        request.setAttribute("tasks", tasks);
+        List<Offer> offers = this.offerBean.search(searchText, category, typeOfOffer);
+        request.setAttribute("offers", offers);
 
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/offer_list.jsp").forward(request, response);

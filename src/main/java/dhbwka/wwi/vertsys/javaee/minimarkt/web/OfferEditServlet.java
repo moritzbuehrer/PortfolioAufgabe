@@ -14,13 +14,11 @@ import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.OfferBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.UserBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Offer;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.OfferStatus;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TypeOfOffer;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TypeOfPrice;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.User;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +56,7 @@ public class OfferEditServlet extends HttpServlet {
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
         request.setAttribute("types", TypeOfOffer.values());
+        request.setAttribute("price_types", TypeOfPrice.values());
 
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
@@ -106,13 +105,13 @@ public class OfferEditServlet extends HttpServlet {
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
 
-        String offerCategory = request.getParameter("offer_category");
-        String offerDateOfCreation = request.getParameter("offer_date_of_creation");
-        String offerType = request.getParameter("offer_status");
-        String offerTitle = request.getParameter("offer_title");
-        String offerDescription = request.getParameter("offer_description");
-        String offerPrice = request.getParameter("offer_price");
-        String offerTypeOfPrice = request.getParameter("offer_type_of_price");
+        String offerCategory        = request.getParameter("offer_category");
+        String offerDateOfCreation  = request.getParameter("offer_date_of_creation");
+        String offerType            = request.getParameter("offer_type");
+        String offerTitle           = request.getParameter("offer_title");
+        String offerDescription     = request.getParameter("offer_description");
+        String offerPrice           = request.getParameter("offer_price");
+        String offerTypeOfPrice     = request.getParameter("offer_type_of_price");
 
         Offer offer = this.getRequestedOffer(request);
         
@@ -161,7 +160,7 @@ public class OfferEditServlet extends HttpServlet {
             errors.add("Der Preis darf nicht negativ sein.");
         } 
 
-        offer.setTitle(offerTitle);
+        offer.setTitle(offerTitle);        
         offer.setDescription(offerDescription);
 
         this.validationBean.validate(offer, errors);
@@ -245,9 +244,11 @@ public class OfferEditServlet extends HttpServlet {
             WebUtils.formatDate(offer.getDateOfCreation())
         });
 
-        values.put("offer_type", new String[]{
-            offer.getTypeOfOffer().toString()
-        });
+        if (offer.getTypeOfOffer() != null) {
+            values.put("offer_type", new String[]{
+                offer.getTypeOfOffer().toString()
+            });
+        }
 
         values.put("offer_title", new String[]{
             offer.getTitle()
@@ -261,9 +262,11 @@ public class OfferEditServlet extends HttpServlet {
             Double.toString(offer.getPrice())
         });
         
-        values.put("offer_type_of_price", new String[]{
-            offer.getTypeOfPrice().toString()
-        });
+        if (offer.getTypeOfPrice() != null) {
+            values.put("offer_type_of_price", new String[]{
+                offer.getTypeOfPrice().toString()
+            });
+        }
         
 
         FormValues formValues = new FormValues();
