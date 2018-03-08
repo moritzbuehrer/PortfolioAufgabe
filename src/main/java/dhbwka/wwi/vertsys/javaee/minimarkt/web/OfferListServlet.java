@@ -71,7 +71,7 @@ public class OfferListServlet extends HttpServlet {
             }
 
         }
-
+           
         List<Offer> offers = this.offerBean.search(searchText, category, typeOfOffer);
         request.setAttribute("offers", offers);
 
