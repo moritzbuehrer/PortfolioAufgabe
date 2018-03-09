@@ -57,30 +57,30 @@ public class User implements Serializable {
     @NotNull(message = "Das Passwort darf nicht leer sein.")
     private String passwordHash;
     
-    @Column(name = "name", length = 64)
+    @Column(name = "fullname", length = 64)
     @NotNull(message = "Der Name darf nicht leer sein.")
-    private String name;
+    private String fullname;
     
-    @Column(name = "adresse", length = 64)
+    @Column(name = "address", length = 64)
     @NotNull(message = "Die Adresse darf nicht leer sein.")
-    private String adresse;
+    private String address;
     
-    @Column(name = "plz", length = 64)
+    @Column(name = "postalCode", length = 64)
     @NotNull(message = "Die PLZ darf nicht leer sein.")
-    private String plz;
+    private String postalCode;
     
-    @Column(name = "stadt", length = 64)
+    @Column(name = "city", length = 64)
     @NotNull(message = "Die Stadt darf nicht leer sein.")
-    private String stadt;
+    private String city;
     
-    @Column(name = "tel", length = 64)
+    @Column(name = "phoneNumber", length = 64)
     @NotNull(message = "Die Telefonnummer darf nicht leer sein.")
-    private String tel;
+    private String phoneNumber;
     
-    @Column(name = "email", length = 64)
+    @Column(name = "emailAddress", length = 64)
     @NotNull(message = "Die Email darf nicht leer sein.")
     @Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$", message = "Ungültige E-Mail Adresse.")
-    private String email;
+    private String emailAddress;
 
     @ElementCollection
     @CollectionTable(
@@ -97,67 +97,67 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String password, String name, String adresse, String plz, String stadt, String tel, String email) {
+    public User(String username, String password, String fullname, String address, String postalCode, String city, String phoneNumber, String emailAddress) {
         this.username = username;
         this.password.password = password;
         this.passwordHash = this.hashPassword(password);
-        this.name = name;
-        this.adresse = adresse;
-        this.plz = plz;
-        this.stadt = stadt;
-        this.tel = tel;
-        this.email = email;
+        this.fullname = fullname;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
     } 
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Setter und Getter">
 
-    public String getName() {
-        return name;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getPlz() {
-        return plz;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setPlz(String plz) {
-        this.plz = plz;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
-    public String getStadt() {
-        return stadt;
+    public String getCity() {
+        return city;
     }
 
-    public void setStadt(String stadt) {
-        this.stadt = stadt;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getTel() {
-        return tel;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
     
     public String getUsername() {
