@@ -16,8 +16,16 @@
 <c:set var="base_url" value="<%=request.getContextPath()%>" />
 
 <template:base>
+    
     <jsp:attribute name="title">
-        Registrierung
+        <c:choose>
+            <c:when test="${edit}">
+                Benutzerdaten bearbeiten
+            </c:when>
+            <c:otherwise>
+                Registrierung
+            </c:otherwise>
+        </c:choose>
     </jsp:attribute>
 
     <jsp:attribute name="head">
@@ -25,9 +33,18 @@
     </jsp:attribute>
 
     <jsp:attribute name="menu">
-        <div class="menuitem">
-            <a href="<c:url value="/logout/"/>">Einloggen</a>
-        </div>
+        <c:choose>
+            <c:when test="${edit}">
+                <div class="menuitem">
+                    <a href="<c:url value="/app/offers/"/>">Übersicht</a>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="menuitem">
+                    <a href="<c:url value="/logout/"/>">Einloggen</a>
+                </div>
+            </c:otherwise>
+        </c:choose>
     </jsp:attribute>
 
     <jsp:attribute name="content">
@@ -36,87 +53,103 @@
                 <div class="column">
                     <%-- CSRF-Token --%>
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
-                    <div>
-                        <h1> Logindaten </h1>
-                    </div>
-                    <%-- Eingabefelder --%>
-                    <label for="signup_username">
-                        Benutzername:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
-                    </div>
+                    
+                    <c:choose>
+                        <c:when test="${edit}">
+                        </c:when>
+                        <c:otherwise>
+                            <div>
+                                <h1> Logindaten </h1>
+                            </div>
+                            <%-- Eingabefelder --%>
+                            <label for="signup_username">
+                                Benutzername:
+                                <span class="required">*</span>
+                            </label>
+                            <div class="side-by-side">
+                                <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
+                            </div>
 
-                    <label for="signup_password1">
-                        Passwort:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="password" name="signup_password1" value="${signup_form.values["signup_password1"][0]}">
-                    </div>
+                            <label for="signup_password1">
+                                Passwort:
+                                <span class="required">*</span>
+                            </label>
+                            <div class="side-by-side">
+                                <input type="password" name="signup_password1" value="${signup_form.values["signup_password1"][0]}">
+                            </div>
 
-                    <label for="signup_password2">
-                        Passwort (wdh.):
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
-                    </div>
+                            <label for="signup_password2">
+                                Passwort (wdh.):
+                                <span class="required">*</span>
+                            </label>
+                            <div class="side-by-side">
+                                <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                     
                     <div>
                         <h1> Anschrift </h1>
                     </div>
                                         <%-- Eingabefelder --%>
-                    <label for="signup_name">
+                    <label for="signup_fullname">
                         Vor- und Nachname:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_name" value="${signup_form.values["signup_name"][0]}">
+                        <input type="text" name="signup_fullname" value="${signup_form.values["signup_fullname"][0]}">
                     </div>
                     
-                    <label for="signup_anschrift">
-                        StraÃŸe und Hausnummer:
+                    <label for="signup_address">
+                        Stra&szlig;e und Hausnummer:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_adresse" value="${signup_form.values["signup_adresse"][0]}">
+                        <input type="text" name="signup_address" value="${signup_form.values["signup_adresse"][0]}">
                     </div>
                     
-                    <label for="signup_plz" for ="singup_stadt">
+                    <label for="signup_postal_code" for ="signup_city">
                         Postleitzahl und Ort:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="signup_plz" value="${signup_form.values["signup_plz"][0]}"><input type="text" name="signup_stadt" value="${signup_form.values["signup_stadt"][0]}">
+                        <input type="text" name="signup_postal_code" value="${signup_form.values["signup_postal_code"][0]}"><input type="text" name="signup_stadt" value="${signup_form.values["signup_stadt"][0]}">
                     </div>
                     
                     <div>
                         <h1> Kontaktdaten </h1>
                     </div>
                     
-                    <label for="signup_tel">
+                    <label for="signup_phone_number">
                         Telefonnummer:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="signup_tel" value="${signup_form.values["signup_tel"][0]}">
+                        <input type="text" name="signup_phone_number" value="${signup_form.values["signup_phone_number"][0]}">
                     </div>
                     
-                    <label for="signup_email">
+                    <label for="signup_email_address">
                         E-Mail:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_email" value="${signup_form.values["signup_email"][0]}">
+                        <input type="text" name="signup_email_address" value="${signup_form.values["signup_email_address"][0]}">
                     </div>
 
 
                     <%-- Button zum Abschicken --%>
+                    
+                    
                     <div class="side-by-side">
                         <button class="icon-pencil" type="submit">
-                            Registrieren
+                            <c:choose>
+                                <c:when test="${edit}">
+                                    Speichern
+                                </c:when>
+                                <c:otherwise>
+                                    Registrieren
+                                </c:otherwise>
+                            </c:choose> 
                         </button>
                     </div>
                 </div>
