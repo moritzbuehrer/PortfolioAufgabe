@@ -37,7 +37,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="edit_name" value="${signup_form.values["edit_name"][0]}">
+                        <input type="text" name="edit_name" value="${name}">
                     </div>
                     
                     <label for="edit_anschrift">
@@ -45,7 +45,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="edit_adresse" value="${signup_form.values["edit_adresse"][0]}">
+                        <input type="text" name="edit_adresse" value="${adresse}">
                     </div>
                     
                     <label for="edit_plz" for ="edit_stadt">
@@ -53,8 +53,8 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="signup_plz" value="${signup_form.values["edit_plz"][0]}">
-                        <input type="text" name="signup_stadt" value="${signup_form.values["edit_stadt"][0]}">
+                        <input type="number" name="edit_plz" value="${plz}">
+                        <input type="text" name="edit_stadt" value="${stadt}">
                     </div>
                     
                     <div>
@@ -66,15 +66,15 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="edit_tel" value="${signup_form.values["edit_tel"][0]}">
+                        <input type="number" name="edit_tel" value="${tel}">
                     </div>
                     
-                    <label for="signup_email">
+                    <label for="edit_email">
                         E-Mail:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="edit_email" value="${signup_form.values["edit_email"][0]}">
+                        <input type="text" name="edit_email" value="${email}">
                     </div>
 
 
@@ -87,9 +87,9 @@
                 </div>
 
                 <%-- Fehlermeldungen --%>
-                <c:if test="${!empty signup_form.errors}">
+                <c:if test="${!empty edit_form.errors}">
                     <ul class="errors">
-                        <c:forEach items="${signup_form.errors}" var="error">
+                        <c:forEach items="${edit_form.errors}" var="error">
                             <li>${error}</li>
                             </c:forEach>
                     </ul>
