@@ -26,7 +26,11 @@
         <div class="menuitem">
             <a href="<c:url value="/app/offer/new/"/>">Angebot erstellen</a>
         </div>
-
+        
+        <div class="menuitem">
+            <a href="<c:url value="/app/user/edit/"/>">Benutzer bearbeiten</a>
+        </div>
+        
         <div class="menuitem">
             <a href="<c:url value="/app/categories/"/>">Kategorien bearbeiten</a>
         </div>
