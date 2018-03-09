@@ -56,7 +56,11 @@ public class EditUser extends HttpServlet {
         request.setAttribute("plz", this.userBean.getCurrentUser().getPlz());
         request.setAttribute("tel", this.userBean.getCurrentUser().getTel());
         request.setAttribute("email", this.userBean.getCurrentUser().getEmail());
+        
         request.getRequestDispatcher("/WEB-INF/app/edit_user.jsp").forward(request, response);
+        
+        HttpSession session = request.getSession();
+        session.removeAttribute("edit_form");
     }
 
     @Override
