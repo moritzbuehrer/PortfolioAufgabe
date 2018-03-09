@@ -30,6 +30,10 @@
         <div class="menuitem">
             <a href="<c:url value="/app/categories/"/>">Kategorien bearbeiten</a>
         </div>
+        
+        <div class="menuitem">
+            <a href="<c:url value="/signup/edit"/>">Benutzerdaten bearbeiten</a>
+        </div>
     </jsp:attribute>
 
     <jsp:attribute name="content">
