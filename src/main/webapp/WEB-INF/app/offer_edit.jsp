@@ -42,16 +42,10 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                 <%-- Eingabefelder --%>
-                
-                <%-- <label for="offer_creator">Ersteller:</label>
-                <div class="side-by-side">
-                    <input type="text" name="offer_creator" value="${offer_form.values["offer_creator"][0]}" readonly="readonly">
-                </div>
-                --%>
 
                 <label for="offer_category">Kategorie:</label>
                 <div class="side-by-side">
-                    <select name="offer_category">
+                    <select name="offer_category" ${readonly ? 'disabled="disabled"' : ''}>
                         <option value="">Keine Kategorie</option>
 
                         <c:forEach items="${categories}" var="category">
@@ -62,21 +56,12 @@
                     </select>
                 </div>
                 
-<!--                <label for="offer_date_of_creation">
-                    Erstellt am:
-                    <span class="required">*</span>
-                </label>-->
-                
-                <div class="side-by-side">
-                    <input type="text" name="offer_date_of_creation" readonly="readonly" value="${offer_form.values["offer_date_of_creation"][0]}">
-                </div>
-                
                 <label for="offer_type">
                     Typ:
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side margin">
-                    <select name="offer_type">
+                    <select name="offer_type" ${readonly ? 'disabled="disabled"' : ''}>
                         <c:forEach items="${types}" var="type">
                             <option value="${type}" ${offer_form.values["offer_type"][0] == type ? 'selected' : ''}>
                                 <c:out value="${type.label}"/>
@@ -104,7 +89,7 @@
                     Preis:
                 </label>
                 <div class="side-by-side" for="offer_type">
-                    <select name="offer_type_of_price">
+                    <select name="offer_type_of_price" ${readonly ? 'disabled="disabled"' : ''}>
                         <c:forEach items="${price_types}" var="type">
                             <option value="${type}" ${offer_form.values["offer_type_of_price"][0] == type ? 'selected' : ''}>
                                 <c:out value="${type.label}"/>
