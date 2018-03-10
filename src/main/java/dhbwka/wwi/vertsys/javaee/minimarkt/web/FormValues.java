@@ -29,6 +29,10 @@ public class FormValues {
     }
     
     public void setValues(Map<String, String[]> values) {
+        if (values == null) {
+            return;
+        }
+        
         // Werte kopieren, da eine direkte Zuweisung die Werte wieder verliert,
         // wenn die Methode mit request.getParameterMap() aufgerufen wird!
         this.values = new HashMap<>();
