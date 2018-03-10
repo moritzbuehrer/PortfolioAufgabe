@@ -77,5 +77,10 @@ public class Category implements Serializable {
         this.tasks = tasks;
     }
     //</editor-fold>
+    
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
 
 }
