@@ -17,7 +17,14 @@
     <jsp:attribute name="title">
         <c:choose>
             <c:when test="${edit}">
-                Angebot bearbeiten
+                <c:choose>
+                    <c:when test="${readonly}">
+                        Angebot anzeigen
+                    </c:when>
+                    <c:otherwise>
+                        Angebot bearbeiten
+                    </c:otherwise>    
+                </c:choose>
             </c:when>
             <c:otherwise>
                 Angebot anlegen
@@ -55,7 +62,7 @@
                         </c:forEach>
                     </select>
                 </div>
-                
+
                 <label for="offer_type">
                     Typ:
                     <span class="required">*</span>
@@ -84,7 +91,7 @@
                 <div class="side-by-side">
                     <textarea name="offer_description" ${readonly ? 'readonly="readonly"' : ''}><c:out value="${offer_form.values['offer_description'][0]}"/></textarea>
                 </div>
-                
+
                 <label for="offer_price">
                     Preis:
                 </label>
@@ -112,29 +119,29 @@
                     </c:if>
                 </div>
             </div>
-             
-                <div>
-                    <p>
-                        <b>Erstellt am:</b><br>
-                        ${offer_form.values['offer_date_of_creation'][0]}
-                    </p>
-                    <p>
-                        <b>Anbieter:</b><br>
-                        ${offer_form.values['offer_creator_fullname'][0]}<br>
-                        ${offer_form.values['offer_creator_address'][0]}<br>
-                        ${offer_form.values['offer_creator_postal_code'][0]}
-                        ${offer_form.values['offer_creator_city'][0]}<br>
-                        ${offer_form.values['offer_creator_phone_number'][0]}<br>
-                        ${offer_form.values['offer_creator_email'][0]}
-                    </p>
-                </div>
+
+            <div>
+                <p>
+                    <b>Erstellt am:</b><br>
+                    ${offer_form.values['offer_date_of_creation'][0]}
+                </p>
+                <p>
+                    <b>Anbieter:</b><br>
+                    ${offer_form.values['offer_creator_fullname'][0]}<br>
+                    ${offer_form.values['offer_creator_address'][0]}<br>
+                    ${offer_form.values['offer_creator_postal_code'][0]}
+                    ${offer_form.values['offer_creator_city'][0]}<br>
+                    ${offer_form.values['offer_creator_phone_number'][0]}<br>
+                    ${offer_form.values['offer_creator_email'][0]}
+                </p>
+            </div>
 
             <%-- Fehlermeldungen --%>
             <c:if test="${!empty offer_form.errors}">
                 <ul class="errors">
                     <c:forEach items="${offer_form.errors}" var="error">
                         <li>${error}</li>
-                    </c:forEach>
+                        </c:forEach>
                 </ul>
             </c:if>
         </form>
