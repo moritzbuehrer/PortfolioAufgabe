@@ -53,7 +53,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="edit_plz" value="${plz}">
+                        <input type="text" name="edit_plz" value="${plz}">
                         <input type="text" name="edit_stadt" value="${stadt}">
                     </div>
                     
@@ -66,7 +66,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="edit_tel" value="${tel}">
+                        <input type="text" name="edit_tel" value="${tel}">
                     </div>
                     
                     <label for="edit_email">
