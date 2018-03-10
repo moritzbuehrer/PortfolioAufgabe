@@ -101,15 +101,7 @@
                 <label for="offer_price">
                     Preis:
                 </label>
-                <div class="side-by-side">
-                    <input name="offer_price" value="${offer_form.values['offer_price'][0]}" ${readonly ? 'readonly="readonly"' : ''}/>
-                </div>
-                
-                <label for="offer_type">
-                    Preistyp:
-                    <span class="required">*</span>
-                </label>
-                <div class="side-by-side margin">
+                <div class="side-by-side" for="offer_type">
                     <select name="offer_type_of_price">
                         <c:forEach items="${price_types}" var="type">
                             <option value="${type}" ${offer_form.values["offer_type_of_price"][0] == type ? 'selected' : ''}>
@@ -117,6 +109,7 @@
                             </option>
                         </c:forEach>
                     </select>
+                    <input name="offer_price" value="${offer_form.values['offer_price'][0]}" ${readonly ? 'readonly="readonly"' : ''}/>
                 </div>
 
                 <%-- Button zum Abschicken --%>
