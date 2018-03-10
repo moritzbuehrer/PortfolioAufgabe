@@ -256,9 +256,31 @@ public class OfferEditServlet extends HttpServlet {
 
     private FormValues createOfferForm(Offer offer) {
         Map<String, String[]> values = new HashMap<>();
+        
+        User creator = offer.getCreator();
 
-        values.put("offer_creator", new String[]{
-            offer.getCreator().getUsername()
+        values.put("offer_creator_fullname", new String[]{
+            creator.getUsername()
+        });
+        
+        values.put("offer_creator_address", new String[]{
+            creator.getAdresse()
+        });
+        
+        values.put("offer_creator_postal_code", new String[]{
+            creator.getPlz()
+        });
+        
+        values.put("offer_creator_city", new String[]{
+            creator.getStadt()
+        });
+        
+        values.put("offer_creator_phone_number", new String[]{
+            creator.getTel()
+        });
+        
+        values.put("offer_creator_email", new String[]{
+            creator.getEmail()
         });
 
         if (offer.getCategory() != null) {

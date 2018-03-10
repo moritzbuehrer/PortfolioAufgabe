@@ -42,10 +42,12 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                 <%-- Eingabefelder --%>
-                <label for="offer_creator">Ersteller:</label>
+                
+                <%-- <label for="offer_creator">Ersteller:</label>
                 <div class="side-by-side">
                     <input type="text" name="offer_creator" value="${offer_form.values["offer_creator"][0]}" readonly="readonly">
                 </div>
+                --%>
 
                 <label for="offer_category">Kategorie:</label>
                 <div class="side-by-side">
@@ -59,11 +61,11 @@
                         </c:forEach>
                     </select>
                 </div>
-
-                <label for="offer_date_of_creation">
+                
+<!--                <label for="offer_date_of_creation">
                     Erstellt am:
                     <span class="required">*</span>
-                </label>
+                </label>-->
                 
                 <div class="side-by-side">
                     <input type="text" name="offer_date_of_creation" readonly="readonly" value="${offer_form.values["offer_date_of_creation"][0]}">
@@ -125,6 +127,22 @@
                     </c:if>
                 </div>
             </div>
+             
+                <div>
+                    <p>
+                        <b>Erstellt am:</b><br>
+                        ${offer_form.values['offer_date_of_creation'][0]}
+                    </p>
+                    <p>
+                        <b>Anbieter:</b><br>
+                        ${offer_form.values['offer_creator_fullname'][0]}<br>
+                        ${offer_form.values['offer_creator_address'][0]}<br>
+                        ${offer_form.values['offer_creator_postal_code'][0]}
+                        ${offer_form.values['offer_creator_city'][0]}<br>
+                        ${offer_form.values['offer_creator_phone_number'][0]}<br>
+                        ${offer_form.values['offer_creator_email'][0]}
+                    </p>
+                </div>
 
             <%-- Fehlermeldungen --%>
             <c:if test="${!empty offer_form.errors}">
