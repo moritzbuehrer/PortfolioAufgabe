@@ -89,7 +89,8 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="signup_plz" value="${signup_form.values["signup_plz"][0]}"><input type="text" name="signup_stadt" value="${signup_form.values["signup_stadt"][0]}">
+                        <input type="text" name="signup_plz" value="${signup_form.values["signup_plz"][0]}">
+                        <input type="text" name="signup_stadt" value="${signup_form.values["signup_stadt"][0]}">
                     </div>
                     
                     <div>
@@ -101,7 +102,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="signup_tel" value="${signup_form.values["signup_tel"][0]}">
+                        <input type="text" name="signup_tel" value="${signup_form.values["signup_tel"][0]}">
                     </div>
                     
                     <label for="signup_email">

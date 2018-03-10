@@ -65,7 +65,7 @@ public class SignUpServlet extends HttpServlet {
         String plz = request.getParameter("signup_plz");
         String tel = request.getParameter("signup_tel");
         String email = request.getParameter("signup_email");
-
+        
         // Eingaben prüfen
         User user = new User(username, password1, name, adresse, plz, stadt, tel, email);
         List<String> errors = this.validationBean.validate(user);
@@ -73,6 +73,25 @@ public class SignUpServlet extends HttpServlet {
         
         if (password1 != null && password2 != null && !password1.equals(password2)) {
             errors.add("Die beiden Passwörter stimmen nicht überein.");
+        }
+        
+        if(name.isEmpty()){
+            errors.add("Der Name darf nicht leer sein.");
+        }
+        if(adresse.isEmpty()){
+            errors.add("Die Adresse darf nicht leer sein.");
+        }
+        if(stadt.isEmpty()){
+            errors.add("Die Stadt darf nicht leer sein.");
+        }
+        if(plz.isEmpty()){
+            errors.add("Die Postleitzahl darf nicht leer sein.");
+        }
+        if(tel.isEmpty()){
+            errors.add("Die Telefonnummer darf nicht leer sein.");
+        }
+        if(email.isEmpty()){
+            errors.add("Die Email darf nicht leer sein.");
         }
         
         // Neuen Benutzer anlegen
