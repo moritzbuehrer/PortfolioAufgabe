@@ -253,7 +253,7 @@ public class OfferEditServlet extends HttpServlet {
         User creator = offer.getCreator();
 
         values.put("offer_creator_fullname", new String[]{
-            creator.getUsername()
+            creator.getName()
         });
 
         values.put("offer_creator_address", new String[]{

@@ -99,7 +99,7 @@
                                 <c:out value="${offer.category.name}"/>
                             </td>
                             <td>
-                                <c:out value="${offer.creator.username}"/>
+                                <c:out value="${offer.creator.name}"/>
                             </td>
                             <td>
                                 <c:out value="${offer.typeOfOffer.label}"/>
